@@ -1,4 +1,3 @@
-// src/InvoiceEditForm.js
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import invoiceService from "./InvoiceService";
@@ -28,31 +27,36 @@ const InvoiceEditForm = () => {
         const inv = invoiceRes.data;
         setForm({
           invoiceNumber: inv.invoiceNumber || "",
-          issueDate: inv.issueDate || "",
-          dueDate: inv.dueDate || "",
+          issueDate: inv.issueDate ? inv.issueDate.substring(0, 10) : "",
+          dueDate: inv.dueDate ? inv.dueDate.substring(0, 10) : "",
           amount: inv.amount || "",
-          status: inv.status || "",
+          status: inv.status || "PENDING",
           clientId: inv.clientId || ""
         });
         setClients(clientsRes.data || []);
       } catch (err) {
-        console.error("Error loading data:", err);
+        console.error("Error loading data:", err.response?.data || err.message);
         alert("Failed to load invoice");
       }
     };
     load();
   }, [id]);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await invoiceService.updateInvoice(id, form);
+      await invoiceService.updateInvoice(id, {
+        ...form,
+        amount: parseFloat(form.amount),
+        clientId: form.clientId ? parseInt(form.clientId, 10) : null
+      });
       navigate("/invoices");
     } catch (err) {
-      console.error("Error updating invoice:", err);
-      alert("Failed to update invoice");
+      console.error("Error updating invoice:", err.response?.data || err.message);
+      alert("Failed to update invoice: " + (err.response?.data?.message || ""));
     }
   };
 
@@ -60,25 +64,73 @@ const InvoiceEditForm = () => {
     <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded max-w-lg">
       <h2 className="text-xl font-bold mb-4">Edit Invoice</h2>
 
-      <input name="invoiceNumber" value={form.invoiceNumber} onChange={handleChange} required placeholder="Invoice Number" className="border p-2 w-full mb-3" />
+      <input
+        name="invoiceNumber"
+        value={form.invoiceNumber}
+        onChange={handleChange}
+        required
+        placeholder="Invoice Number"
+        className="border p-2 w-full mb-3"
+      />
 
-      <select name="clientId" value={form.clientId} onChange={handleChange} required className="border p-2 w-full mb-3">
+      <select
+        name="clientId"
+        value={form.clientId}
+        onChange={handleChange}
+        required
+        className="border p-2 w-full mb-3"
+      >
         <option value="">Select Client</option>
-        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+        {clients.map((c) => (
+          <option key={c.id} value={c.id}>{c.name}</option>
+        ))}
       </select>
 
-      <input type="number" name="amount" value={form.amount} onChange={handleChange} required placeholder="Amount" className="border p-2 w-full mb-3" />
+      <input
+        type="number"
+        name="amount"
+        value={form.amount}
+        onChange={handleChange}
+        required
+        placeholder="Amount"
+        step="0.01"
+        className="border p-2 w-full mb-3"
+      />
 
-      <input type="date" name="issueDate" value={form.issueDate} onChange={handleChange} required className="border p-2 w-full mb-3" />
-      <input type="date" name="dueDate" value={form.dueDate} onChange={handleChange} required className="border p-2 w-full mb-3" />
+      <input
+        type="date"
+        name="issueDate"
+        value={form.issueDate}
+        onChange={handleChange}
+        required
+        className="border p-2 w-full mb-3"
+      />
+      <input
+        type="date"
+        name="dueDate"
+        value={form.dueDate}
+        onChange={handleChange}
+        required
+        className="border p-2 w-full mb-3"
+      />
 
-      <select name="status" value={form.status} onChange={handleChange} className="border p-2 w-full mb-3">
+      <select
+        name="status"
+        value={form.status}
+        onChange={handleChange}
+        className="border p-2 w-full mb-3"
+      >
         <option value="PENDING">PENDING</option>
         <option value="PAID">PAID</option>
         <option value="OVERDUE">OVERDUE</option>
       </select>
 
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">Update Invoice</button>
+      <button
+        type="submit"
+        className="bg-green-600 text-white px-4 py-2 rounded"
+      >
+        Update Invoice
+      </button>
     </form>
   );
 };
