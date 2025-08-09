@@ -1,15 +1,18 @@
-import axios from 'axios';
+// src/ClientService.js
+import { axiosInstance } from "./api";
 
-const BASE_URL = `${process.env.REACT_APP_API_URL}/api/clients`;
+const BASE = "/clients";
 
-const createClient = (clientData) => {
-  return axios.post(BASE_URL, clientData);
+const getAllClients = () => axiosInstance.get(BASE);
+const getClientById = (id) => axiosInstance.get(`${BASE}/${id}`);
+const createClient = (data) => axiosInstance.post(BASE, data);
+const updateClient = (id, data) => axiosInstance.put(`${BASE}/${id}`, data);
+const deleteClient = (id) => axiosInstance.delete(`${BASE}/${id}`);
+
+export default {
+  getAllClients,
+  getClientById,
+  createClient,
+  updateClient,
+  deleteClient,
 };
-
-const getAllClients = () => {
-  return axios.get(BASE_URL);
-};
-
-const clientService = { createClient, getAllClients };
-
-export default clientService;

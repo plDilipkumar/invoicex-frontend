@@ -1,10 +1,13 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar';
-import InvoiceList from './InvoiceList';
-import InvoiceForm from './InvoiceForm';
-import ClientForm from './ClientForm';
-import ClientList from './ClientList';
+// src/App.js
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./Navbar";
+import InvoiceList from "./InvoiceList";
+import InvoiceForm from "./InvoiceForm";
+import InvoiceEditForm from "./InvoiceEditForm";
+import ClientList from "./ClientList";
+import ClientForm from "./ClientForm";
+import ClientEditForm from "./ClientEditForm";
 
 function App() {
   return (
@@ -15,11 +18,14 @@ function App() {
           <Routes>
             {/* Invoice Routes */}
             <Route path="/" element={<InvoiceList />} />
-            <Route path="/add-invoice" element={<InvoiceForm />} />
+            <Route path="/invoices" element={<InvoiceList />} />
+            <Route path="/invoices/add" element={<InvoiceForm />} />
+            <Route path="/invoices/edit/:id" element={<InvoiceEditForm />} />
 
             {/* Client Routes */}
             <Route path="/clients" element={<ClientList />} />
-            <Route path="/add-client" element={<ClientForm />} />
+            <Route path="/clients/add" element={<ClientForm />} />
+            <Route path="/clients/edit/:id" element={<ClientEditForm />} />
           </Routes>
         </main>
       </div>

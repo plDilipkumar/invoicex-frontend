@@ -1,23 +1,18 @@
-import axios from 'axios';
+// src/InvoiceService.js
+import { axiosInstance } from "./api";
 
-const BASE_URL = `${process.env.REACT_APP_API_URL}/api/invoices`;
+const BASE = "/invoices";
 
-const createInvoice = (invoiceData) => {
-  return axios.post(BASE_URL, invoiceData);
-};
+const getAllInvoices = () => axiosInstance.get(BASE);
+const getInvoiceById = (id) => axiosInstance.get(`${BASE}/${id}`);
+const createInvoice = (data) => axiosInstance.post(BASE, data);
+const updateInvoice = (id, data) => axiosInstance.put(`${BASE}/${id}`, data);
+const deleteInvoice = (id) => axiosInstance.delete(`${BASE}/${id}`);
 
-const getAllInvoices = () => {
-  return axios.get(BASE_URL);
-};
-
-const deleteInvoice = (id) => {
-  return axios.delete(`${BASE_URL}/${id}`);
-};
-
-const invoiceService = {
-  createInvoice,
+export default {
   getAllInvoices,
-  deleteInvoice
+  getInvoiceById,
+  createInvoice,
+  updateInvoice,
+  deleteInvoice,
 };
-
-export default invoiceService;
