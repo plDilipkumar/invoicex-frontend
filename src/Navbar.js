@@ -1,16 +1,14 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="bg-blue-600 text-white px-6 py-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">InvoiceX</h1>
-        <div className="space-x-4">
-          <Link to="/" className="hover:underline">Invoices</Link>
-          <Link to="/add" className="hover:underline">Add Invoice</Link>
-        </div>
+    <nav className="bg-blue-600 text-white p-4">
+      <div className="container mx-auto flex space-x-4">
+        <Link to="/">Invoices</Link>
+        <Link to="/add-invoice">Add Invoice</Link>
+        <Link to="/clients">Clients</Link>
+        <Link to="/add-client">Add Client</Link>
       </div>
     </nav>
   );
