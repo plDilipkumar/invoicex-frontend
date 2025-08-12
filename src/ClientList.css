@@ -1,0 +1,56 @@
+.client-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.client-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.client-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.btn-add {
+  background: #4a90e2;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.btn-add:hover {
+  background: #357abd;
+}
+
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.client-table th {
+  background: #f8f9fa;
+  padding: 12px;
+  border-bottom: 2px solid #e0e0e0;
+  text-align: left;
+}
+
+.client-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.client-table tr:hover {
+  background: #f5faff;
+}

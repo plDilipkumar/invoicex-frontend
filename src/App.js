@@ -8,13 +8,14 @@ import InvoiceEditForm from "./InvoiceEditForm";
 import ClientList from "./ClientList";
 import ClientForm from "./ClientForm";
 import ClientEditForm from "./ClientEditForm";
+import "./App.css"; // <-- added styles
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-50">
+      <div className="app-wrapper">
         <Navbar />
-        <main className="container mx-auto mt-6 px-4">
+        <main className="app-main">
           <Routes>
             {/* Invoice Routes */}
             <Route path="/" element={<InvoiceList />} />

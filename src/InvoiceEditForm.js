@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import invoiceService from "./InvoiceService";
 import clientService from "./ClientService";
+import "./InvoiceEditForm.css"; // Import CSS file
 
 const InvoiceEditForm = () => {
   const { id } = useParams();
@@ -61,8 +62,8 @@ const InvoiceEditForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded max-w-lg">
-      <h2 className="text-xl font-bold mb-4">Edit Invoice</h2>
+    <form onSubmit={handleSubmit} className="invoice-edit-form">
+      <h2>Edit Invoice</h2>
 
       <input
         name="invoiceNumber"
@@ -70,7 +71,6 @@ const InvoiceEditForm = () => {
         onChange={handleChange}
         required
         placeholder="Invoice Number"
-        className="border p-2 w-full mb-3"
       />
 
       <select
@@ -78,7 +78,6 @@ const InvoiceEditForm = () => {
         value={form.clientId}
         onChange={handleChange}
         required
-        className="border p-2 w-full mb-3"
       >
         <option value="">Select Client</option>
         {clients.map((c) => (
@@ -94,7 +93,6 @@ const InvoiceEditForm = () => {
         required
         placeholder="Amount"
         step="0.01"
-        className="border p-2 w-full mb-3"
       />
 
       <input
@@ -103,7 +101,6 @@ const InvoiceEditForm = () => {
         value={form.issueDate}
         onChange={handleChange}
         required
-        className="border p-2 w-full mb-3"
       />
       <input
         type="date"
@@ -111,26 +108,19 @@ const InvoiceEditForm = () => {
         value={form.dueDate}
         onChange={handleChange}
         required
-        className="border p-2 w-full mb-3"
       />
 
       <select
         name="status"
         value={form.status}
         onChange={handleChange}
-        className="border p-2 w-full mb-3"
       >
         <option value="PENDING">PENDING</option>
         <option value="PAID">PAID</option>
         <option value="OVERDUE">OVERDUE</option>
       </select>
 
-      <button
-        type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded"
-      >
-        Update Invoice
-      </button>
+      <button type="submit">Update Invoice</button>
     </form>
   );
 };

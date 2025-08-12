@@ -1,7 +1,7 @@
-// src/ClientForm.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clientService from "./ClientService";
+import "./ClientForm.css"; // Import the CSS file
 
 const ClientForm = () => {
   const navigate = useNavigate();
@@ -13,7 +13,8 @@ const ClientForm = () => {
     address: ""
   });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,17 +28,76 @@ const ClientForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded max-w-lg">
-      <h2 className="text-xl font-bold mb-4">Add Client</h2>
-
-      <input name="name" value={form.name} onChange={handleChange} required placeholder="Name" className="border p-2 w-full mb-3" />
-      <input name="email" value={form.email} onChange={handleChange} required placeholder="Email" type="email" className="border p-2 w-full mb-3" />
-      <input name="company" value={form.company} onChange={handleChange} placeholder="Company" className="border p-2 w-full mb-3" />
-      <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" className="border p-2 w-full mb-3" />
-      <input name="address" value={form.address} onChange={handleChange} placeholder="Address" className="border p-2 w-full mb-3" />
-
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save Client</button>
-    </form>
+    <div className="client-form-container">
+      <h2 className="form-title">Add Client</h2>
+      <form onSubmit={handleSubmit} className="client-form">
+        <div className="form-group">
+          <label>Name:</label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            placeholder="Name"
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            placeholder="Email"
+            type="email"
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Company:</label>
+          <input
+            name="company"
+            value={form.company}
+            onChange={handleChange}
+            placeholder="Company"
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Phone:</label>
+          <input
+            name="phone"
+            value={form.phone}
+            onChange={handleChange}
+            placeholder="Phone"
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Address:</label>
+          <textarea
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            placeholder="Address"
+            className="form-textarea"
+          />
+        </div>
+        <div className="form-actions">
+          <button type="submit" className="btn-primary">
+            Save Client
+          </button>
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={() => navigate("/clients")}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
-// src/ClientList.js
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import clientService from "./ClientService";
+import "./ClientList.css"; // Import CSS
 
 const ClientList = () => {
   const [clients, setClients] = useState([]);
@@ -30,34 +30,43 @@ const ClientList = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Clients</h1>
-        <Link to="/clients/add" className="bg-blue-500 text-white px-4 py-2 rounded">Add Client</Link>
+    <div className="client-list-container">
+      <div className="client-list-header">
+        <h1>Clients</h1>
+        <Link to="/clients/add" className="btn-add">
+          + Add Client
+        </Link>
       </div>
 
-      <table className="table-auto w-full bg-white shadow rounded">
+      <table className="client-table">
         <thead>
           <tr>
-            <th className="px-2 py-1 border">ID</th>
-            <th className="px-2 py-1 border">Name</th>
-            <th className="px-2 py-1 border">Email</th>
-            <th className="px-2 py-1 border">Company</th>
-            <th className="px-2 py-1 border">Phone</th>
-            <th className="px-2 py-1 border">Actions</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Phone</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {clients.map((c) => (
             <tr key={c.id}>
-              <td className="px-2 py-1 border">{c.id}</td>
-              <td className="px-2 py-1 border">{c.name}</td>
-              <td className="px-2 py-1 border">{c.email}</td>
-              <td className="px-2 py-1 border">{c.company}</td>
-              <td className="px-2 py-1 border">{c.phone}</td>
-              <td className="px-2 py-1 border">
-                <Link to={`/clients/edit/${c.id}`} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">Edit</Link>
-                <button onClick={() => handleDelete(c.id)} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+              <td>{c.id}</td>
+              <td>{c.name}</td>
+              <td>{c.email}</td>
+              <td>{c.company}</td>
+              <td>{c.phone}</td>
+              <td>
+                <Link to={`/clients/edit/${c.id}`} className="btn-edit">
+                  Edit
+                </Link>
+                <button
+                  onClick={() => handleDelete(c.id)}
+                  className="btn-delete"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

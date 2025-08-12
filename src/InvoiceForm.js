@@ -1,8 +1,8 @@
-// src/InvoiceForm.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clientService from "./ClientService";
 import invoiceService from "./InvoiceService";
+import "./InvoiceForm.css"; // new CSS import
 
 const InvoiceForm = () => {
   const navigate = useNavigate();
@@ -17,10 +17,14 @@ const InvoiceForm = () => {
   });
 
   useEffect(() => {
-    clientService.getAllClients().then(res => setClients(res.data)).catch(err => console.error(err));
+    clientService
+      .getAllClients()
+      .then(res => setClients(res.data))
+      .catch(err => console.error(err));
   }, []);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,28 +38,64 @@ const InvoiceForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded max-w-lg">
-      <h2 className="text-xl font-bold mb-4">Add Invoice</h2>
+    <form onSubmit={handleSubmit} className="invoice-form">
+      <h2>Add Invoice</h2>
 
-      <input name="invoiceNumber" value={form.invoiceNumber} onChange={handleChange} required placeholder="Invoice Number" className="border p-2 w-full mb-3" />
+      <input
+        name="invoiceNumber"
+        value={form.invoiceNumber}
+        onChange={handleChange}
+        required
+        placeholder="Invoice Number"
+      />
 
-      <select name="clientId" value={form.clientId} onChange={handleChange} required className="border p-2 w-full mb-3">
+      <select
+        name="clientId"
+        value={form.clientId}
+        onChange={handleChange}
+        required
+      >
         <option value="">Select Client</option>
-        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+        {clients.map(c => (
+          <option key={c.id} value={c.id}>{c.name}</option>
+        ))}
       </select>
 
-      <input type="number" name="amount" value={form.amount} onChange={handleChange} required placeholder="Amount" className="border p-2 w-full mb-3" />
+      <input
+        type="number"
+        name="amount"
+        value={form.amount}
+        onChange={handleChange}
+        required
+        placeholder="Amount"
+      />
 
-      <input type="date" name="issueDate" value={form.issueDate} onChange={handleChange} required className="border p-2 w-full mb-3" />
-      <input type="date" name="dueDate" value={form.dueDate} onChange={handleChange} required className="border p-2 w-full mb-3" />
+      <input
+        type="date"
+        name="issueDate"
+        value={form.issueDate}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="date"
+        name="dueDate"
+        value={form.dueDate}
+        onChange={handleChange}
+        required
+      />
 
-      <select name="status" value={form.status} onChange={handleChange} className="border p-2 w-full mb-3">
+      <select
+        name="status"
+        value={form.status}
+        onChange={handleChange}
+      >
         <option value="PENDING">PENDING</option>
         <option value="PAID">PAID</option>
         <option value="OVERDUE">OVERDUE</option>
       </select>
 
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save Invoice</button>
+      <button type="submit">Save Invoice</button>
     </form>
   );
 };

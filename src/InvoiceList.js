@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import invoiceService from "./InvoiceService";
 import clientService from "./ClientService";
-import "./InvoiceList.css";
+import "./InvoiceList.css"; // Importing the styles
 
 const InvoiceList = () => {
   const [invoices, setInvoices] = useState([]);
@@ -41,7 +41,9 @@ const InvoiceList = () => {
     <div className="invoice-container">
       <div className="invoice-header">
         <h1>Invoices</h1>
-        <Link to="/invoices/add" className="btn-add">Add Invoice</Link>
+        <Link to="/invoices/add" className="btn-add">
+          Add Invoice
+        </Link>
       </div>
 
       <table className="invoice-table">
@@ -64,10 +66,19 @@ const InvoiceList = () => {
               <td>{clientsMap[inv.clientId] || inv.clientId}</td>
               <td>{inv.amount}</td>
               <td>{inv.issueDate}</td>
-              <td className={`status-${inv.status?.toLowerCase()}`}>{inv.status}</td>
+              <td className={`status-${inv.status?.toLowerCase()}`}>
+                {inv.status}
+              </td>
               <td>
-                <Link to={`/invoices/edit/${inv.id}`} className="btn-edit">Edit</Link>
-                <button onClick={() => handleDelete(inv.id)} className="btn-delete">Delete</button>
+                <Link to={`/invoices/edit/${inv.id}`} className="btn-edit">
+                  Edit
+                </Link>
+                <button
+                  onClick={() => handleDelete(inv.id)}
+                  className="btn-delete"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
