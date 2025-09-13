@@ -1,7 +1,7 @@
 // src/api.js
 import axios from "axios";
 
-let raw = process.env.REACT_APP_API_URL || "http://localhost:8080";
+let raw = process.env.REACT_APP_API_URL || "https://invoicex-i3y4.onrender.com";
 raw = raw.replace(/\/+$/, ""); // remove trailing slash(es)
 
 const API_BASE = raw.endsWith("/api") ? raw : `${raw}/api`;

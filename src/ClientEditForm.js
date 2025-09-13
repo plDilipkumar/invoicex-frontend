@@ -14,7 +14,7 @@ const ClientEditForm = () => {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/clients/${id}`)
+    axios.get(`https://invoicex-i3y4.onrender.com/api/clients/${id}`)
       .then((response) => {
         setClient(response.data);
       })
@@ -27,7 +27,7 @@ const ClientEditForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:8080/api/clients/${id}`, client)
+    axios.put(`https://invoicex-i3y4.onrender.com/api/clients/${id}`, client)
       .then(() => {
         navigate("/clients");
       })
