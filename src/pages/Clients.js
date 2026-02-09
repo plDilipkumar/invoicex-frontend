@@ -50,34 +50,34 @@ export default function Clients() {
       }
     }
   };
+<<<<<<< HEAD
   const startEdit = (c) => { setEditingId(c.id); setForm({ name:c.name||'', email:c.email||'', phone:c.phone||'', company:c.company||'' }); };
   const cancelEdit = () => { setEditingId(null); setForm({ name:'', email:'', phone:'', company:'' }); setError(''); };
-
-  return (
-    <div className="flex gap-12" style={{ alignItems: 'flex-start' }}>
-      <div className="card p-16" style={{ flex: 1 }}>
+=======
+  const startEdit = (c) => { setEditingId(c.id); setForm({ name:c.name||'', email:c.email||'', phone:c.phone||'', company:c.company||'' }); };
+  const cancelEdit = () => { setEditingId(null); setForm({ name:'', email:'', phone:'', company:'' }); setError(''); };1 }}>
         <h2 className="mb-16">Clients</h2>
         {error && <div className="error mb-16">{error}</div>}
         <table>
           <thead>
+<<<<<<< HEAD
             <tr><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th></th></tr>
-          </thead>
-          <tbody>
-            {clients.map(c => (
-              <tr key={c.id}>
-                <td>{c.name}</td>
+=======
+            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th></th></tr>
+>>>>>>> b39d77101845d11cea32c159abfa641844140ce4
+            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th></th></tr>
                 <td>{c.email}</td>
                 <td>{c.phone}</td>
+<<<<<<< HEAD
                 <td>{c.company}</td>
+=======
+                <td>{c.address}</td>
+>>>>>>> b39d77101845d11cea32c159abfa641844140ce4
                 <td className="flex gap-8">
                   <button className="btn btn-secondary" onClick={() => startEdit(c)}>Edit</button>
                   <button className="btn btn-danger" onClick={() => remove(c.id)}>Delete</button>
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                <td>{c.company}</td>
       <div className="card p-16" style={{ width: 380 }}>
         <h3 className="mb-16">{editingId ? 'Edit Client' : 'Add Client'}</h3>
         <form onSubmit={save} className="flex gap-12" style={{ flexDirection:'column' }}>
@@ -94,16 +94,16 @@ export default function Clients() {
             <input value={form.phone} onChange={(e)=>setForm({ ...form, phone:e.target.value })} />
           </div>
           <div>
+<<<<<<< HEAD
             <label>Company</label>
             <input value={form.company} onChange={(e)=>setForm({ ...form, company:e.target.value })} />
+=======
+            <label>Address</label>
+            <input value={form.address} onChange={(e)=>setForm({ ...form, address:e.target.value })} />
+>>>>>>> b39d77101845d11cea32c159abfa641844140ce4
           </div>
-          <div className="flex gap-12">
-            <button className="btn btn-primary" type="submit">{editingId ? 'Update' : 'Save'}</button>
-            {editingId && <button type="button" className="btn btn-secondary" onClick={cancelEdit}>Cancel</button>}
-          </div>
-        </form>
-      </div>
-    </div>
+            <label>Company</label>
+            <input value={form.company} onChange={(e)=>setForm({ ...form, company:e.target.value })} />
   );
 }
 
