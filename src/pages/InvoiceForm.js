@@ -10,8 +10,27 @@ export default function InvoiceForm() {
   const [form, setForm] = useState({ invoiceNumber:'', issueDate:'', dueDate:'', amount:'', status:'PENDING', clientId:'' });
   const [error, setError] = useState('');
 
-  useEffect(() => { (async () => { const { data } = await API.get(clientsBase); setClients(data); })(); }, []);
-  useEffect(() => { if (isEdit) (async () => { const { data } = await API.get(`${invoicesBase}/${id}`); setForm({ ...data }); })(); }, [id]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await API.get(clientsBase);
+        setClients(data);
+      } catch (e) {
+        setError('Could not load clients. Check that the API is available.');
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    if (!isEdit) return;
+    (async () => {
+      try {
+        const { data } = await API.get(`${invoicesBase}/${id}`);
+        setForm({ ...data });
+      } catch (e) {
+        setError('Could not load this invoice. It may not exist or may not belong to this account.');
+      }
+    })();
+  }, [id, isEdit]);
 
   const save = async (e) => {
     e.preventDefault();
@@ -42,15 +61,15 @@ export default function InvoiceForm() {
         <div className="flex gap-12">
           <div style={{ flex:1 }}>
             <label>Issue Date</label>
-            <input type="date" value={form.issueDate} onChange={(e)=>setForm({ ...form, issueDate:e.target.value })} required />
+            <input type="date" value={form.issueDate} max={form.dueDate || undefined} onChange={(e)=>setForm({ ...form, issueDate:e.target.value })} required />
           </div>
           <div style={{ flex:1 }}>
             <label>Due Date</label>
-            <input type="date" value={form.dueDate} onChange={(e)=>setForm({ ...form, dueDate:e.target.value })} required />
+            <input type="date" value={form.dueDate} min={form.issueDate || undefined} onChange={(e)=>setForm({ ...form, dueDate:e.target.value })} required />
           </div>
           <div style={{ flex:1 }}>
             <label>Amount</label>
-            <input type="number" value={form.amount} onChange={(e)=>setForm({ ...form, amount:e.target.value })} required />
+            <input type="number" min="0.01" step="0.01" value={form.amount} onChange={(e)=>setForm({ ...form, amount:e.target.value })} required />
           </div>
         </div>
         <div>
