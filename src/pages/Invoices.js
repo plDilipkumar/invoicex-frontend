@@ -10,12 +10,39 @@ export default function Invoices() {
     try {
       const { data } = await API.get(invoicesBase);
       setInvoices(data);
-    } catch (e) { setError('Failed to load invoices'); } finally { setLoading(false); }
+      setError('');
+    } catch (e) {
+      setInvoices([]);
+      setError(e?.response?.status === 401 ? 'Your session may have expired. Please sign in again.' : 'Could not load invoices. Check that the API is available, then retry.');
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => { fetchData(); }, []);
 
-  const remove = async (id) => { if (!window.confirm('Delete invoice?')) return; await API.delete(`${invoicesBase}/${id}`); fetchData(); };
-  const downloadPdf = async (id) => { const res = await API.get(`${invoicesBase}/${id}/pdf`, { responseType:'blob' }); const url = window.URL.createObjectURL(res.data); const a = document.createElement('a'); a.href=url; a.download='invoice.pdf'; a.click(); };
+  const remove = async (id) => {
+    if (!window.confirm('Delete invoice?')) return;
+    try {
+      await API.delete(`${invoicesBase}/${id}`);
+      await fetchData();
+    } catch (e) {
+      setError('Could not delete this invoice. Refresh the page and try again.');
+    }
+  };
+  const downloadPdf = async (id) => {
+    try {
+      const res = await API.get(`${invoicesBase}/${id}/pdf`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(res.data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `invoice-${id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (e) {
+      setError('Could not download the PDF. Check the invoice and API connection.');
+    }
+  };
 
   if (loading) return <div>Loading…</div>;
   return (
