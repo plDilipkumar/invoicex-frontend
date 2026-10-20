@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,26 +12,24 @@ import { isAuthenticated, logout } from './AuthService';
 const Nav = () => {
   const location = useLocation();
   const signedIn = isAuthenticated();
+  const [search, setSearch] = useState('');
+  const submitSearch = (event) => {
+    event.preventDefault();
+    window.location.href = '/?q=' + encodeURIComponent(search.trim());
+  };
   return (
-    <header className="nav">
-      <div className="container">
-        <Link to="/" className="brand"><span className="brand-mark">✦</span><span>InvoiceX</span></Link>
-        <nav className="nav-links">
-          {signedIn ? (
-            <>
-              <Link className={location.pathname === '/' || location.pathname.startsWith('/invoices') ? 'active' : ''} to="/">▤ Invoices</Link>
-              <Link className={location.pathname.startsWith('/clients') ? 'active' : ''} to="/clients">♙ Clients</Link>
-              <button className="btn btn-secondary" onClick={() => { logout(); window.location.href = '/login'; }}>↪ Logout</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Create account</Link>
-            </>
-          )}
-        </nav>
-      </div>
-    </header>
+    <>
+      <header className="nav">
+        <div className="nav-main">
+          <Link to="/" className="brand"><span className="brand-mark">✦</span><span>Invoice<span className="brand-accent">X</span><small>BUSINESS WORKSPACE</small></span></Link>
+          {signedIn && <form className="nav-search" onSubmit={submitSearch}><span aria-hidden="true">⌕</span><input aria-label="Search InvoiceX" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search invoices by number, ID or status" /><button type="submit">Search</button></form>}
+          <nav className="nav-actions">
+            {signedIn ? <><Link className={location.pathname === '/' || location.pathname.startsWith('/invoices') ? 'nav-link active' : 'nav-link'} to="/">▤ Invoices</Link><Link className={location.pathname.startsWith('/clients') ? 'nav-link active' : 'nav-link'} to="/clients">♙ Clients</Link><Link className="nav-create" to="/invoices/new">＋ New invoice</Link><button className="nav-logout" onClick={() => { logout(); window.location.href = '/login'; }}>Logout ↗</button></> : <><Link className="nav-link" to="/login">Login</Link><Link className="nav-create" to="/register">Create account</Link></>}
+          </nav>
+        </div>
+      </header>
+      {signedIn && <div className="nav-sub"><div className="nav-sub-inner"><span>WORKSPACE</span><Link to="/">Overview</Link><Link to="/">Invoices & payments</Link><Link to="/clients">Your clients</Link><span className="nav-sub-right">A simpler way to run your business <b>✦</b></span></div></div>}
+    </>
   );
 };
 
