@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_API_BASE || 'https://invoicex-i3y4.onrender.com';
-const API = axios.create({ baseURL: BASE_URL });
+// Keep this aligned with the Vercel project environment variable.
+// REACT_APP_API_URL is configured on the existing InvoiceX frontend project.
+const BASE_URL =
+  process.env.REACT_APP_API_URL ||
+  process.env.REACT_APP_API_BASE ||
+  'https://invoicex-i3y4.onrender.com';
+
+const API = axios.create({
+  baseURL: BASE_URL.replace(/\/$/, ''),
+});
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('invoicex_token');
@@ -13,4 +21,3 @@ export default API;
 export const authBase = '/api/auth';
 export const invoicesBase = '/api/invoices';
 export const clientsBase = '/api/clients';
-
