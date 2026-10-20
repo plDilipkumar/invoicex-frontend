@@ -10,7 +10,7 @@ export default function Invoices() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(() => new URLSearchParams(window.location.search).get('q') || '');
   const [status, setStatus] = useState('ALL');
   const [notice, setNotice] = useState('');
 
